@@ -1,0 +1,101 @@
+Tema 2 - Seria CA - Grupa 314CA
+Nume: Nita Maria-Alexandra
+
+Hash ringul este retinut sub forma unei liste dublu inlantuite,
+fiecare nod reprezentand un server retinut sub forma unui hashtable.
+
+Functia "init_server_memory":
+
+	- Aloc spatiu de memorie pentru un server si returnez ppointer la
+	serverul respectiv.
+
+Functia "hash_function":
+
+	- Returneaza valoarea hash-ului asociat cheii obiectului care trebuie
+	adaugat in server.
+
+Functia "server_store":
+
+	- Stochez pe un server cheia si valoarea trimise ca parametru si retinute
+	ulterior intr-o structura alocata static;
+	- Daca exista deja un obiect care are aceeasi cheie, modific doar valoarea
+	obiectului si eliberez memoria ocupata in structura de cheie si valoare.
+
+Functia "server_remove":
+
+	- Parcurg lista de obiecte a serverului si verific care cheie coincide cu
+	cea	trimisa ca parametru;
+	- Cand gasesc cheia eliberez memoria ocupata de cheie si valoare si apelez
+	functia "ll_remove_nth_node", care sterge obiectul, dupa care eliberez
+	memoria	ocupata de acesta.
+
+Functia "server_retrieve":
+
+	- Cauta in lista de obiecte a unui server obiectul care are cheia trimisa
+	ca parametru si returneaza valoarea acestuia sau NULL, daca acesta nu
+	exista.
+
+Functia "free_server_memory":
+
+	- Elibereaza memoria ocupata de un server.
+
+Functia "init_load_balancer":
+	- Aloc spatiu de memorie pentru hash ring.
+
+Functia "ht_has_key":
+
+	- Returneaza 1 daca exista obiectul cu cheia trimisa ca parametru intr-un
+	server si 0 in caz contrar.
+
+Functia "loader_store":
+
+	- Parcurg hash ringul si verific hash-ul carui server este mai mare decat
+	hash-ul	obiectului si il adaug pe el;
+	- Daca nu exista un astfel de server, obiectul va fi salvat pe primul nod
+	din lista.
+
+Functia "loader_retrieve":
+
+	- Returneaza valoarea asociata cheii trimisa ca parametru si intoarce ID-ul
+	serverului	pe care se afla printr-o variabil;a transmisa prin referinta;
+	- Daca cheia nu exista, se returneaza valoarea NULL.
+
+Functia "find_pos":
+
+	- Parcurg lista de servere si returnez pozitia pe care se afla primul
+	server care are hash-ul mai mare decat serverul care trebuie adaugat;
+	- Daca serverele au acelasi hash, se ordoneaza in functie de ID;
+	- Daca nu exista un server cu hash-ul mai mare ca al celui care trebuie
+	adaugat, se returneaza numarul de servere din lista.
+
+Functia "move_object":
+
+	- Verifica daca pe vecinul din dreapta serverului adaugat se afla obiecte
+	care trebuie mutate pe serverul adaugat;
+	- In caz afirmativ, cu ajutorul functiei "server_store", obiectul se muta
+	pe noul server si se sterge din cel pe care se afla initial, apelandu-se
+	functia "server_remove".
+
+Functia "add":
+
+	- Adauga un server pe hash ring pe pozitia n.
+
+Functia "loader_add_server":
+
+	- Apeleaza functia "find_pos" pentru a afla unde trebuie adaugat serverul;
+	- Apeleza functia "add";
+	- Apeleaza functia "move_object" pentru remapare.
+
+Functia "dll_remove_nth_node":
+
+	- Sterge un server de pe hash ring si elibereaza memoria ocupata de el.
+
+Functia "loader_remove_server":
+
+	- Muta obiectele de pe serverul care trebuie sters pe urmatorul server cu
+	hash diferit de hash-ul obiectelor;
+	- Elimina serverul din lista, apeland functia "dll_remove_nth_node".
+
+Functia "free_load_balancer":
+
+	- Elibereaza intreaga memorie ocupata de hash ring.
